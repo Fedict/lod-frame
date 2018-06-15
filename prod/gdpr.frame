@@ -1,0 +1,48 @@
+{
+	"@context": {
+		"be-dataentry": "http://vocab.belgif.be/ns/dataentry#",
+		"be-gdpr": "http://vocab.belgif.be/ns/gdpr#",
+		"be-infosec": "http://vocab.belgif.be/ns/infosec#",
+		"cv": "http://data.europa.eu/m8g/",
+		"dcterms": "http://purl.org/dc/terms/",
+		"org": "http://www.w3.org/ns/org#",
+		"owl": "http://www.w3.org/2002/07/owl#",
+		"rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+		"rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+		"schema": "http://schema.org/",
+		"skos": "http://www.w3.org/2004/02/skos/core#",
+		"xsd": "http://www.w3.org/2001/XMLSchema#",
+		"description": { 
+			"@id": "dcterms:description", 
+			"@container": "@language"
+		},
+		"title": { 
+			"@id": "dcterms:title", 
+			"@container": "@language"
+		},
+		"part": {
+			"@id": "dcterms:hasPart",
+			"@type": "@id"
+		},
+		"rights": {
+			"@id": "dcterms:accessRights",
+			"@type": "@id"
+		},
+		"treatment": {
+			"@id": "dcterms:hasDataTreatment",
+			"@type": "@id"
+		}
+	},
+	"@type": "be-gdpr:DataTreatment",
+	"@embed": true,
+	"@explicit": true,
+	"title": {},
+	"description": {},
+	"part": {
+		"@type": "be-gdpr:DataTreatmentPart",
+		"@embed": true,
+		"@explicit": true,
+		"title": {},
+		"description": {}
+	}
+}
