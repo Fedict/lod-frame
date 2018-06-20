@@ -12,6 +12,10 @@
 		"schema": "http://schema.org/",
 		"skos": "http://www.w3.org/2004/02/skos/core#",
 		"xsd": "http://www.w3.org/2001/XMLSchema#",
+		"identifier": {
+			"@id": "dcterms:identifier",
+			"@type": "xsd:string"
+		},
 		"description": { 
 			"@id": "dcterms:description", 
 			"@container": "@language"
@@ -31,18 +35,111 @@
 		"treatment": {
 			"@id": "dcterms:hasDataTreatment",
 			"@type": "@id"
-		}
+		},
+		"startdate": {
+			"@id": "schema:startDate",
+			"@type": "xsd:date"
+		},
+		"enddate": {
+			"@id": "schema:endDate",
+			"@type": "xsd:date"
+		},
+		"notation": {
+			"@id": "skos:notation",
+			"@type": "xsd:string"
+		},
+		"note": {
+			"@id": "skos:note",
+			"@container": "@language"
+		},
+		"altlabel": {
+			"@id": "skos:altLabel",
+			"@container": "@language"
+		},
+		"preflabel": {
+			"@id": "skos:prefLabel",
+			"@container": "@language"
+		},
+		"authoritativesource": {
+			"@id": "be-gdpr:authoritativeSource",
+			"@container": "@language"
+		},
+		"businessprocess": {
+			"@id": "be-gdpr:businessProcess",
+			"@container": "@language"
+		},
+		"businessprocessowner": {
+			"@id": "be-gdpr:businessProcessOwner",
+			"@container": "@language"
+		},
+		"conservation": {
+			"@id": "be-gdpr:conservation",
+			"@container": "@language"
+		},
+		"datacategory": {
+			"@id": "be-gdpr:dataCategory",
+			"@type": "skos:Concept"
+		},
+		"datacategorytext": {
+			"@id": "be-gdpr:dataCategoryText",
+			"@container": "@language"
+		},
+		"finalitymain": {
+			"@id": "be-gdpr:finalityMain",
+			"@type": "skos:Concept"
+		},
+		"finalityother": {
+			"@id": "be-gdpr:finalityOther",
+			"@type": "skos:Concept"
+		},
+		"finalitytext": {
+			"@id": "be-gdpr:finalityText",
+			"@container": "@language"
+		},
+		"datacoupling": {
+			"@id": "be-gdpr:dataCoupling",
+			"@container": "@language"
+		},
+		"datareceiver": {
+			"@id": "be-gdpr:hasDataReceiver"
+		},
+		"datareceivertype": {
+			"@id": "be-gdpr:receiverType"
+		},
+		"datareceivertypetext": {
+			"@id": "be-gdpr:receiverTypeText",
+			"@container": "@language"
+		},
+		"guarantee": {
+			"@id": "be-gdpr:guarantee",
+			"@container": "@language"
+		},
+		"juridicalbase": {
+			"@id": "be-gdpr:juridicalBase"
+		},
+		"juridicalbasetext": {
+			"@id": "be-gdpr:juridicalBaseText",
+			"@container": "@language"
+		},
+		"transfernature": {
+			"@id": "be-gdpr:transferNature",
+			"@type": "skos:Concept"
+		},
+		"transfernaturetext": {
+			"@id": "be-gdpr:transferNatureText",
+			"@container": "@language"
+		},
+		"organisation": {
+			"@id": "org:memberOf"
+		}	
 	},
 	"@type": "be-gdpr:DataTreatment",
 	"@embed": true,
-	"@explicit": true,
-	"title": {},
-	"description": {},
 	"part": {
 		"@type": "be-gdpr:DataTreatmentPart",
 		"@embed": true,
-		"@explicit": true,
-		"title": {},
-		"description": {}
+		"receiver": {
+			"@embed": true
+		}
 	}
 }
