@@ -25,14 +25,15 @@
  */
 package be.fedict.lod.gdprframe;
 
+
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
+
 import java.io.BufferedReader;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -89,18 +90,26 @@ public class Main {
 	 * @param outfile 
 	 */
 	private static void convert(Path infile, Path inframe, Path outfile) throws IOException {
-		BufferedReader r = Files.newBufferedReader(infile);
-		BufferedReader rf = Files.newBufferedReader(inframe);
-
-		Object obj = JsonUtils.fromReader(r);
-		Object frame = JsonUtils.fromReader(rf);
+		Object obj;
+		Object frame;
 		
-		Map<String,Object> res = JsonLdProcessor.frame(obj, frame, new JsonLdOptions());
+		try(BufferedReader r = Files.newBufferedReader(infile);
+			BufferedReader rf = Files.newBufferedReader(inframe)) {
+			
+			obj = JsonUtils.fromReader(r);
+			frame = JsonUtils.fromReader(rf);
+		}
 		
-		BufferedWriter w = Files.newBufferedWriter(outfile, StandardOpenOption.CREATE, 
-															StandardOpenOption.TRUNCATE_EXISTING);
-		JsonUtils.writePrettyPrint(w, res);
-	}
+		JsonLdOptions opts = new JsonLdOptions();
+		opts.setOmitDefault(Boolean.TRUE);
+		Map<String,Object> res = JsonLdProcessor.frame(obj, frame, opts);
+		
+		try(BufferedWriter w = Files.newBufferedWriter(outfile, 
+											StandardOpenOption.CREATE, 
+											StandardOpenOption.TRUNCATE_EXISTING)) {
+			JsonUtils.writePrettyPrint(w, res);
+		}
+}
 	
 	/**
 	 * Main
