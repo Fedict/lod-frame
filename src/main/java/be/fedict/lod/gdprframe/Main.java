@@ -26,19 +26,27 @@
 package be.fedict.lod.gdprframe;
 
 
+import com.github.jsonldjava.core.JsonLdApi;
+import com.github.jsonldjava.core.JsonLdConsts;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
+import com.github.jsonldjava.core.RDFDataset;
+import com.github.jsonldjava.core.RDFDatasetUtils;
 import com.github.jsonldjava.utils.JsonUtils;
 
 import java.io.BufferedReader;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -46,6 +54,11 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.impl.LinkedHashModel;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.Rio;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,15 +106,26 @@ public class Main {
 		Object obj;
 		Object frame;
 		
+		
 		try(BufferedReader r = Files.newBufferedReader(infile);
 			BufferedReader rf = Files.newBufferedReader(inframe)) {
-			
-			obj = JsonUtils.fromReader(r);
+		
+			// merge graphs for buggy JSON-LD-Java
+			Model parsed = Rio.parse(r, "", RDFFormat.JSONLD);
+			Model merged = new LinkedHashModel();
+			parsed.forEach(s -> merged.add(s.getSubject(), s.getPredicate(), s.getObject()));
+			parsed.clear();
+			StringWriter w = new StringWriter();
+			Rio.write(merged, w, RDFFormat.JSONLD);
+			// obj = JsonUtils.fromReader(r);
+			obj = JsonUtils.fromString(w.toString());
 			frame = JsonUtils.fromReader(rf);
 		}
-		
+
 		JsonLdOptions opts = new JsonLdOptions();
 		opts.setOmitDefault(Boolean.TRUE);
+		opts.setProcessingMode(JsonLdOptions.JSON_LD_1_1);
+	
 		Map<String,Object> res = JsonLdProcessor.frame(obj, frame, opts);
 		
 		try(BufferedWriter w = Files.newBufferedWriter(outfile, 
@@ -109,7 +133,7 @@ public class Main {
 											StandardOpenOption.TRUNCATE_EXISTING)) {
 			JsonUtils.writePrettyPrint(w, res);
 		}
-}
+	}
 	
 	/**
 	 * Main
