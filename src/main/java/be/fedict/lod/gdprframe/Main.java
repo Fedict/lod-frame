@@ -25,7 +25,6 @@
  */
 package be.fedict.lod.gdprframe;
 
-import com.github.jsonldjava.core.JsonLdConsts;
 import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
@@ -39,7 +38,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.cli.CommandLine;
@@ -77,7 +75,7 @@ public class Main {
 	 */
 	private static void printHelp() {
 		HelpFormatter fmt = new HelpFormatter();
-		fmt.printHelp("tagger", OPTS);
+		fmt.printHelp("frame", OPTS);
 	}
 
 	/**
@@ -111,15 +109,15 @@ public class Main {
 		try(BufferedReader r = Files.newBufferedReader(infile);
 			BufferedReader rf = Files.newBufferedReader(inframe)) {
 		
-			// merge all graphs for buggy JSON-LD-Java versions (0.12.1)
-			// might not be needed anymore when fixed in JSON-LD-Java
+			// merge input graphs for buggy JSON-LD-Java versions (0.12.1) into 1
+			// not needed anymore when this gets fixed in JSON-LD-Java
 			Model parsed = Rio.parse(r, "", RDFFormat.JSONLD);
 			Model merged = new LinkedHashModel();
 			parsed.forEach(s -> merged.add(s.getSubject(), s.getPredicate(), s.getObject()));
 			parsed.clear();
 			StringWriter w = new StringWriter();
 			Rio.write(merged, w, RDFFormat.JSONLD);
-			// obj = JsonUtils.fromReader(r);
+			// read the corrected input
 			obj = JsonUtils.fromString(w.toString());
 			frame = JsonUtils.fromReader(rf);
 		}
@@ -131,8 +129,6 @@ public class Main {
 	
 		// convert the JSON-LD with frame to a more human readable shape
 		Map<String,Object> res = JsonLdProcessor.frame(obj, frame, opts);
-		List lst = (List) res.get(JsonLdConsts.GRAPH);
-		lst.forEach(l -> System.err.println(((Map) l).keySet()));
 
 		// write the file
 		try(BufferedWriter w = Files.newBufferedWriter(outfile, 
@@ -162,7 +158,7 @@ public class Main {
 		
 		try {
 			convert(infile, inframe, outfile);
-		} catch (Exception ioe) {
+		} catch (JsonLdError | IOException ioe) {
 			LOG.error("Error processing", ioe);
 			System.exit(-2);
 		}
