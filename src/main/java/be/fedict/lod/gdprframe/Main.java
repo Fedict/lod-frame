@@ -25,13 +25,10 @@
  */
 package be.fedict.lod.gdprframe;
 
-
-import com.github.jsonldjava.core.JsonLdApi;
 import com.github.jsonldjava.core.JsonLdConsts;
+import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
-import com.github.jsonldjava.core.RDFDataset;
-import com.github.jsonldjava.core.RDFDatasetUtils;
 import com.github.jsonldjava.utils.JsonUtils;
 
 import java.io.BufferedReader;
@@ -42,11 +39,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -54,8 +48,8 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+
 import org.eclipse.rdf4j.model.Model;
-import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.impl.LinkedHashModel;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.Rio;
@@ -64,6 +58,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+/**
+ * Converts a JSON-LD file to a more human friendly JSON-LD using "frames".
+ * 
+ * @see <a href="https://json-ld.org/spec/latest/json-ld-framing/">https://json-ld.org/spec/latest/json-ld-framing/</a>
+ * @author Bart Hanssens
+ */
 public class Main {
 	private final static Logger LOG = LoggerFactory.getLogger(Main.class);
 
@@ -83,8 +83,8 @@ public class Main {
 	/**
 	 * Parse command line arguments
 	 *
-	 * @param args
-	 * @return
+	 * @param args command line arguments
+	 * @return CLI parser
 	 */
 	private static CommandLine parse(String[] args) {
 		CommandLineParser cli = new DefaultParser();
@@ -98,19 +98,21 @@ public class Main {
 
 	/**
 	 * Convert JSON-LD file using JSON-LD Frame
-	 * @param infile
-	 * @param inframe
-	 * @param outfile 
+	 * 
+	 * @param infile input file
+	 * @param inframe frame file
+	 * @param outfile output file
 	 */
-	private static void convert(Path infile, Path inframe, Path outfile) throws IOException {
+	private static void convert(Path infile, Path inframe, Path outfile) throws IOException, JsonLdError {
 		Object obj;
 		Object frame;
 		
-		
+		// read input file and JSON input frame
 		try(BufferedReader r = Files.newBufferedReader(infile);
 			BufferedReader rf = Files.newBufferedReader(inframe)) {
 		
-			// merge graphs for buggy JSON-LD-Java
+			// merge all graphs for buggy JSON-LD-Java versions (0.12.1)
+			// might not be needed anymore when fixed in JSON-LD-Java
 			Model parsed = Rio.parse(r, "", RDFFormat.JSONLD);
 			Model merged = new LinkedHashModel();
 			parsed.forEach(s -> merged.add(s.getSubject(), s.getPredicate(), s.getObject()));
@@ -122,12 +124,17 @@ public class Main {
 			frame = JsonUtils.fromReader(rf);
 		}
 
+		// set JSON-LD options
 		JsonLdOptions opts = new JsonLdOptions();
 		opts.setOmitDefault(Boolean.TRUE);
 		opts.setProcessingMode(JsonLdOptions.JSON_LD_1_1);
 	
+		// convert the JSON-LD with frame to a more human readable shape
 		Map<String,Object> res = JsonLdProcessor.frame(obj, frame, opts);
-		
+		List lst = (List) res.get(JsonLdConsts.GRAPH);
+		lst.forEach(l -> System.err.println(((Map) l).keySet()));
+
+		// write the file
 		try(BufferedWriter w = Files.newBufferedWriter(outfile, 
 											StandardOpenOption.CREATE, 
 											StandardOpenOption.TRUNCATE_EXISTING)) {
@@ -155,7 +162,7 @@ public class Main {
 		
 		try {
 			convert(infile, inframe, outfile);
-		} catch (IOException ioe) {
+		} catch (Exception ioe) {
 			LOG.error("Error processing", ioe);
 			System.exit(-2);
 		}
