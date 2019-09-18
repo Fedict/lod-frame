@@ -11,7 +11,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>be.fedict.lod.gdprframe.MainApp</mainClass>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -45,7 +44,7 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>be.fedict.lod.gdprframe.Main</mainClass>
+                                    <mainClass>be.fedict.lod.framer.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
