@@ -1,0 +1,284 @@
+{
+	"@context": {
+		"be-dataentry": "http://vocab.belgif.be/ns/dataentry#",
+		"be-gdpr": "http://vocab.belgif.be/ns/gdpr#",
+		"be-infosec": "http://vocab.belgif.be/ns/infosec#",
+		"cv": "http://data.europa.eu/m8g/",
+		"dcterms": "http://purl.org/dc/terms/",
+		"org": "http://www.w3.org/ns/org#",
+		"owl": "http://www.w3.org/2002/07/owl#",
+		"rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+		"rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+		"schema": "http://schema.org/",
+		"skos": "http://www.w3.org/2004/02/skos/core#",
+		"xsd": "http://www.w3.org/2001/XMLSchema#",
+		"identifier": {
+			"@id": "dcterms:identifier"
+		},
+		"description": { 
+			"@id": "dcterms:description", 
+			"@container": "@language"
+		},
+		"title": { 
+			"@id": "dcterms:title", 
+			"@container": "@language"
+		},
+		"part": {
+			"@id": "dcterms:hasPart",
+			"@type": "@id"
+		},
+		"rights": {
+			"@id": "dcterms:accessRights",
+			"@type": "@id"
+		},
+		"treatment": {
+			"@id": "dcterms:hasDataTreatment",
+			"@type": "@id"
+		},
+		"startdate": {
+			"@id": "schema:startDate",
+			"@type": "xsd:date"
+		},
+		"enddate": {
+			"@id": "schema:endDate",
+			"@type": "xsd:date"
+		},
+		"code": {
+			"@id": "skos:notation"
+		},
+		"note": {
+			"@id": "skos:note",
+			"@container": "@language"
+		},
+		"altlabel": {
+			"@id": "skos:altLabel",
+			"@container": "@language"
+		},
+		"preflabel": {
+			"@id": "skos:prefLabel",
+			"@container": "@language"
+		},
+		"authoritativesource": {
+			"@id": "be-gdpr:authoritativeSource",
+			"@container": "@language"
+		},
+		"authorization": {
+			"@id": "be-gdpr:authorization",
+			"@container": "@language"
+		},
+		"businessprocess": {
+			"@id": "be-gdpr:businessProcess",
+			"@container": "@language"
+		},
+		"businessprocessowner": {
+			"@id": "be-gdpr:businessProcessOwner",
+			"@container": "@language"
+		},
+		"conservation": {
+			"@id": "be-gdpr:conservation",
+			"@container": "@language"
+		},
+		"contract": {
+			"@id": "be-gdpr:contract",
+			"@container": "@language"
+		},
+		"datacategory": {
+			"@id": "be-gdpr:dataCategory"
+		},
+		"datacategorytext": {
+			"@id": "be-gdpr:dataCategoryText",
+			"@container": "@language"
+		},
+		"finalitymain": {
+			"@id": "be-gdpr:finalityMain"
+		},
+		"finalityother": {
+			"@id": "be-gdpr:finalityOther"
+		},
+		"finalitytext": {
+			"@id": "be-gdpr:finalityText",
+			"@container": "@language"
+		},
+		"datacoupling": {
+			"@id": "be-gdpr:dataCoupling",
+			"@container": "@language"
+		},
+		"destinationcountry": {
+			"@id": "be-gdpr:destinationCountry"
+		},
+		"controller": {
+			"@id": "be-gdpr:hasController"
+		},		
+		"datareceiver": {
+			"@id": "be-gdpr:hasDataReceiver"
+		},
+		"datareceivertype": {
+			"@id": "be-gdpr:receiverType"
+		},
+		"datareceivertypetext": {
+			"@id": "be-gdpr:receiverTypeText",
+			"@container": "@language"
+		},
+		"email": {
+			"@id": "be-gdpr:emailPrivacyQuestions"
+		},
+		"guarantee": {
+			"@id": "be-gdpr:guarantee",
+			"@container": "@language"
+		},
+		"involvedparty": {
+			"@id": "be-gdpr:involvedParty"
+		},
+		"involvedpartytext": {
+			"@id": "be-gdpr:involvedPartyText",
+			"@container": "@language"
+		},
+		"juridicalbase": {
+			"@id": "be-gdpr:juridicalBase"
+		},
+		"juridicalbasetext": {
+			"@id": "be-gdpr:juridicalBaseText",
+			"@container": "@language"
+		},
+		"receivertype": {
+			"@id": "be-gdpr:receiverType"
+		},
+		"receivertypetext": {
+			"@id": "be-gdpr:receiverTypeText",
+			"@container": "@language"
+		},
+		"remarks": {
+			"@id": "be-gdpr:remarks",
+			"@container": "@language"
+		},
+		"rightsprocedure": {
+			"@id": "be-gdpr:rightsProcedure",
+			"@container": "@language"
+		},
+		"securitymeasurestext": {
+			"@id": "be-gdpr:securityMeasuresText",
+			"@container": "@language"
+		},
+		"transfernature": {
+			"@id": "be-gdpr:transferNature"
+		},
+		"transfernaturetext": {
+			"@id": "be-gdpr:transferNatureText",
+			"@container": "@language"
+		},
+		"treatmenttype": {
+			"@id": "be-gdpr:treatmentType"
+		},
+		"treatmenttypetext": {
+			"@id": "be-gdpr:treatmentTypeText",
+			"@container": "@language"
+		},
+		"organisation": {
+			"@id": "org:memberOf"
+		}	
+	},
+	"@type": "be-gdpr:DataTreatment",
+	"@embed": "@always",
+	"@explicit": true,
+	"description": {},
+	"title": {},
+	"startdate": {},
+	"enddate": {},
+	"authoritativesource": {},
+	"authorization": {},
+	"businessprocess": {},
+	"businessprocessowner": {},
+	"finalitymain": {
+		"@type": "skos:Concept",
+		"@explicit": true,
+		"altlabel": {},
+		"preflabel": {}
+	},
+	"finalityother": {
+		"@type": "skos:Concept",
+		"@explicit": true,
+		"altlabel": {},
+		"preflabel": {}
+	},
+	"finalitytext": {},
+	"involvedparty": {
+		"@type": "skos:Concept",
+		"@explicit": true,
+		"altlabel": {},
+		"preflabel": {}
+	},
+	"involvedpartytext": {},
+	"juridicalbase": {
+		"@type": "skos:Concept",
+		"@explicit": true,
+		"altlabel": {},
+		"preflabel": {}
+	},
+	"juridicalbasetext": {},
+	"securitymeasurestext": {},
+	"treatmenttype": {
+		"@type": "skos:Concept",
+		"@explicit": true,
+		"altlabel": {},
+		"preflabel": {}
+	},
+	"treatmenttypetext": {},
+	"controller": {
+		"@embed": "@always",
+		"@explicit": true,
+		"@type": "be-gdpr:Controller",
+		"organisation": {
+			"code": {},
+			"altlabel": {}
+		},
+		"email": {}
+	},
+	"processor": {
+		"@type": "be-gdpr:Processor",
+		"contract": {},
+		"organisation": {
+			"@type": "org:Organization",
+			"code": {},
+			"altlabel": {}
+		}
+	},
+	"part": {
+		"@type": "be-gdpr:DataTreatmentPart",
+		"conservation": {},
+		"datacategory": {
+			"@type": "skos:Concept",
+			"@explicit": true,
+			"altlabel": {},
+			"preflabel": {}
+		},
+		"datacategorytext": {},
+		"datareceiver": {
+			"@type": "be-gdpr:DataReceiver",
+			"destinationcountry": {
+				"@type": "skos:Concept",
+				"@explicit": true,
+				"altlabel": {},
+				"preflabel": {}
+			},
+			"guarantee": {},
+			"receivertype": {
+				"@type": "skos:Concept",
+				"@explicit": true,
+				"altlabel": {},
+				"preflabel": {}
+			},
+			"receivertypetext": {},
+			"transfernature": {
+				"@type": "skos:Concept",
+				"@explicit": true,
+				"altlabel": {},
+				"preflabel": {}
+			},
+			"transfernaturetext": {},
+			"organisation": {
+				"code": {},
+				"altlabel": {}
+			}
+		}
+	}
+}
