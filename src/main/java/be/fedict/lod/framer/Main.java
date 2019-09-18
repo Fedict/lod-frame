@@ -23,7 +23,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package be.fedict.lod.gdprframe;
+package be.fedict.lod.framer;
 
 import com.github.jsonldjava.core.JsonLdError;
 import com.github.jsonldjava.core.JsonLdOptions;
@@ -75,7 +75,7 @@ public class Main {
 	 */
 	private static void printHelp() {
 		HelpFormatter fmt = new HelpFormatter();
-		fmt.printHelp("frame", OPTS);
+		fmt.printHelp("framer", OPTS);
 	}
 
 	/**
